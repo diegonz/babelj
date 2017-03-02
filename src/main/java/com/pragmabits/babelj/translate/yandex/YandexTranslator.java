@@ -8,8 +8,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * YandexTranslator Class - Handles translation on yandex backend.
@@ -63,7 +61,7 @@ public class YandexTranslator implements Translator {
      */
     @Override
     public Translation translate(Translation request) throws TranslateError {
-        //this.checkTranslationAvailable(request);    // Discard return value
+        // TODO this.checkTranslationAvailable(request);    // Discard return value
         String translationDirection;
         if (request.getSourceLang() != null) {
             translationDirection = request.getSourceLang() + "-" + request.getTargetLang();

@@ -1,7 +1,13 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
 group 'com.pragmabits.babelj'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: "com.github.johnrengelman.shadow"
 
 sourceCompatibility = 1.8
 
@@ -10,16 +16,16 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
     compile "com.beust:jcommander:1.60"
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'commons-validator:commons-validator:1.6'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.pragmabits.babelj.Main'
+        attributes 'Main-Class': 'com.pragmabits.babelj.BabelJ'
     }
 }
