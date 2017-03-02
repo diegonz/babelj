@@ -1,0 +1,25 @@
+group 'com.pragmabits.babelj'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "com.beust:jcommander:1.60"
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'commons-validator:commons-validator:1.6'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.pragmabits.babelj.Main'
+    }
+}
