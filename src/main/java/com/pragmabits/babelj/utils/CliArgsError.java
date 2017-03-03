@@ -11,23 +11,4 @@ public class CliArgsError extends BabelJException {
     CliArgsError(String message) {
         super(message);
     }
-
-    /**
-     * Instantiates a new Utils exception.
-     *
-     * @param cause the cause
-     */
-    CliArgsError(Throwable cause) {
-        super(cause);
-    }
-
-    /**
-     * Instantiates a new Utils exception.
-     *
-     * @param message the message
-     * @param cause   the cause
-     */
-    CliArgsError(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

@@ -27,7 +27,7 @@ public class Translation {
      * @param text       the text
      */
     public Translation(String sourceLang, String targetLang, String text) {
-        this.sourceLang = sourceLang;
+        this.sourceLang = sourceLang != null ? sourceLang : "auto";
         this.targetLang = targetLang;
         this.text = text;
     }

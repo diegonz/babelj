@@ -10,34 +10,7 @@ import retrofit2.http.Query;
  *
  * @author Diego González
  */
-public interface YandexTranslateService {
-    /**
-     * Gets langs.
-     *
-     * @param apiVersion the api version
-     * @param apiKey     the api key
-     * @param targetLang the target lang
-     * @return the langs
-     */
-    @POST("api/{apiVersion}/tr.json/getLangs")
-    Call<GetLangsResponse> getLangs(@Path("apiVersion") String apiVersion,
-                                    @Query("key") String apiKey,
-                                    @Query("lang") String targetLang);
-
-    /**
-     * Detect language call.
-     *
-     * @param apiVersion the api version
-     * @param apiKey     the api key
-     * @param uiLang     the ui lang
-     * @param text       the text
-     * @return the call
-     */
-    @POST("api/{apiVersion}/tr.json/detect")
-    Call<DetectResponse> detect(@Path("apiVersion") String apiVersion,
-                                @Query("key") String apiKey,
-                                @Query("ui") String uiLang,
-                                @Query("text") String text);
+@FunctionalInterface public interface YandexTranslateService {
 
     /**
      * Translate call.

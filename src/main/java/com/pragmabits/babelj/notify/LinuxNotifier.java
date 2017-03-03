@@ -36,7 +36,7 @@ public class LinuxNotifier implements Notifier {
     }
 
     @Override
-    public int sendNotification(Notification notification) throws NotifyException {
+    public int sendNotification(Notification notification) throws NotifyError {
         List<String> command = new ArrayList<>(5);
         command.add("notify-send");
         command.add("-i");
@@ -46,7 +46,7 @@ public class LinuxNotifier implements Notifier {
         try {
             return runtime.exec(command.toArray(new String[0])).waitFor();
         } catch (Exception e) {
-            throw new NotifyException("Unable to notify with notify-send OSD", e);
+            throw new NotifyError("Unable to notify with notify-send OSD", e);
         }
     }
 }

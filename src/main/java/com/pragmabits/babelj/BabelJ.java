@@ -1,6 +1,6 @@
 package com.pragmabits.babelj;
 
-import com.pragmabits.babelj.notify.NotifyException;
+import com.pragmabits.babelj.notify.NotifyError;
 import com.pragmabits.babelj.notify.NotifyHelper;
 import com.pragmabits.babelj.translate.TranslateError;
 import com.pragmabits.babelj.translate.Translation;
@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  */
 public class BabelJ {
 
-    private static final Logger LOG = Logger.getLogger(BabelJ.class.getName());
     private CliArgs cliArgs;
     private Settings settings;
     private Clipboard clipboard;
@@ -48,11 +47,12 @@ public class BabelJ {
 
     private void run() throws BabelJException {
         String targetText = cliArgs.message != null ? cliArgs.message : clipboard.getByInputType(settings.input);
+        String sourceLang = cliArgs.sourceLang != null ? cliArgs.sourceLang : "auto";
         Translation response;
         try {
-            response = translator.translate(new Translation(cliArgs.sourceLang, settings.language, targetText));
+            response = translator.translate(new Translation(sourceLang, settings.language, targetText));
         } catch (TranslateError te) {
-            LOG.log(Level.SEVERE, "[❌] Translate error.", te);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] Translate error.", te);
             response = new Translation("ERROR", te.getErrorDescription());
         }
 
@@ -84,17 +84,13 @@ public class BabelJ {
         try {
             cliArgs = CliArgs.fromArgs(args);
         } catch (CliArgsError e) {
-            LOG.log(Level.SEVERE, "[❌] CLI arguments error.", e);
-            LOG.log(Level.SEVERE, "[❌] ErrorCode found while parsing CLI arguments.");
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] CLI args parse error.", e);
             System.exit(1);
         }
 
-        String configPath;
-        if (cliArgs.configPath != null) {
-            configPath = cliArgs.configPath.replaceFirst("^~", System.getProperty("user.home"));
-        } else {
-            configPath = System.getProperty("user.home") + File.separator + ".BabelJ.json";
-        }
+        String configPath = cliArgs.configPath != null
+                ? cliArgs.configPath.replaceFirst("^~", System.getProperty("user.home"))
+                : System.getProperty("user.home") + File.separator + ".BabelJ.json";
 
         Settings settings = null;
         try (FileReader fileReader = new FileReader(configPath)) {
@@ -103,34 +99,34 @@ public class BabelJ {
             bufferedReader.close();
             settings.addCliArgs(cliArgs);
         } catch (FileNotFoundException e) {
-            LOG.log(Level.WARNING, "[⚠] Settings file not found.", e);
-            LOG.log(Level.WARNING, "[⚠] Launching with default+cli settings.");
+            Logger.getLogger(BabelJ.class.getName())
+                    .log(Level.WARNING, "[⚠] Settings file not found, using default+CLI settings.");
             settings = Settings.fromCliArgs(cliArgs);
         } catch (IOException e) {
-            LOG.log(Level.SEVERE, "[❌] IO ErrorCode.", e);
-            LOG.log(Level.SEVERE, "[❌] ErrorCode found while trying to read from config file.");
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] IO read error.", e);
             System.exit(1);
-        } catch (SettingsError settingsError) {
-            LOG.log(Level.SEVERE, "[❌] Settings error: ", settingsError);
-            LOG.log(Level.SEVERE, "[❌] Settings error: \n%s", settingsError.getErrorDescription());
-            if (settingsError.getErrorCausingItem() != null)
-                LOG.log(Level.SEVERE, "[❌] ErrorCode causing item: \n%s", settingsError.getErrorCausingItem());
-            LOG.log(Level.SEVERE, "[❌] ErrorCode found while parsing config file.");
+        } catch (SettingsError error) {
+            Logger logger = Logger.getLogger(BabelJ.class.getName());
+            logger.log(Level.SEVERE, "[❌] Settings error: ", error);
+            logger.log(Level.SEVERE, "[❌] Description: \n%s", error.getErrorDescription());
+            if (error.getErrorCauseItem() != null)
+                logger.log(Level.SEVERE, "[❌] Error causing item: \n%s", error.getErrorCauseItem());
+            logger.log(Level.SEVERE, "[❌] Error found while parsing config file.");
             System.exit(1);
         }
 
         if (cliArgs.saveConfig) {
-            int writeOk = 1; // ErrorCode by default
+            Logger logger = Logger.getLogger(BabelJ.class.getName());
+            int writeOk = 1; // Error by default
             try (FileWriter fileWriter = new FileWriter(configPath)) {
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 settings.toJsonFile(bufferedWriter);
                 bufferedWriter.close();
-                LOG.log(Level.INFO, "[✓] Blank config file created with path: %s", configPath);
-                LOG.log(Level.INFO, "[✓] Fill it with your preferred settings and API Key(s).");
+                logger.log(Level.INFO, "[✓] Blank config file created with path: %s", configPath);
+                logger.log(Level.INFO, "[✓] Fill it with your preferred settings and API Key(s).");
                 writeOk = 0; // Exit status 0 (OK)
             } catch (IOException e) {
-                LOG.log(Level.SEVERE, "[❌] IO ErrorCode.", e);
-                LOG.log(Level.SEVERE, "[❌] ErrorCode found while trying to write to config file.");
+                logger.log(Level.SEVERE, "[❌] IO write error.", e);
             }
             System.exit(writeOk);
         }
@@ -138,13 +134,14 @@ public class BabelJ {
         try {
             new BabelJ(settings, cliArgs).run();
         } catch (ClipboardError clipboardError) {
-            LOG.log(Level.SEVERE, "[❌] Input error.", clipboardError);
-            LOG.log(Level.SEVERE, "[❌] ErrorCode found while trying to get user input.");
-        } catch (NotifyException e) {
-            LOG.log(Level.SEVERE, "[❌] Notify error.", e);
-            LOG.log(Level.SEVERE, "[❌] ErrorCode found while trying notify user.");
+            Logger.getLogger(BabelJ.class.getName())
+                    .log(Level.SEVERE, "[❌] Input error.", clipboardError);
+        } catch (NotifyError e) {
+            Logger.getLogger(BabelJ.class.getName())
+                    .log(Level.SEVERE, "[❌] Notify error.", e);
         } catch (BabelJException e) {
-            LOG.log(Level.SEVERE, "[❌] Notify error.", e);
+            Logger.getLogger(BabelJ.class.getName())
+                    .log(Level.SEVERE, "[❌] App error.", e);
             System.exit(1);
         }
     }

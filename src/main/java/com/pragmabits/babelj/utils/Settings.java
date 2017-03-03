@@ -88,48 +88,61 @@ public class Settings {
         this.exchange = false;
     }
 
+    /**
+     * Instantiates a new Settings and adds CliArgs.
+     *
+     * @param cliArgs the cli args
+     */
     private Settings(CliArgs cliArgs) {
         this();
-        this.addCliArgs(cliArgs);
+        addCliArgs(cliArgs);
     }
 
-    private void checkBackend() throws SettingsError {
+    /**
+     * Load Settings from json file config.
+     *
+     * @param configReader the config file reader
+     * @return the config object
+     * @throws SettingsError the config error
+     */
+    public static Settings fromJsonFile(Reader configReader) throws SettingsError {
+        Settings settings = new Gson().fromJson(configReader, Settings.class);
+        settings.parseSettings();
+        return settings;
+    }
+
+    /**
+     * Load Settings from cli args config.
+     *
+     * @param cliArgs the cli args
+     * @return the config
+     */
+    public static Settings fromCliArgs(CliArgs cliArgs) {
+        return new Settings(cliArgs);
+    }
+
+    /**
+     * Parse parsable items in settings.
+     *
+     * @throws SettingsError the settings error
+     */
+    private void parseSettings() throws SettingsError {
         if (!this.backend.matches("yandex|microsoft|google")) {
             throw new SettingsError(SettingsError.Error.BACKEND);
         }
-    }
-
-    private void checkInput() throws SettingsError {
         if (!this.input.matches("clipboard|selection")) {
             throw new SettingsError(SettingsError.Error.INPUT);
         }
-    }
-
-    private void checkOutput() throws SettingsError {
         if (!this.output.matches("none|stdout|notify")) {
             throw new SettingsError(SettingsError.Error.OUTPUT);
         }
-    }
-
-    private void checkLanguage() throws SettingsError {
         if (this.language.length() != 2) {
             throw new SettingsError(SettingsError.Error.LANGUAGE);
         }
-    }
-
-    private void checkIds() throws SettingsError {
         EmailValidator emailValidator = EmailValidator.getInstance(false);
         if (!emailValidator.isValid(this.microsoftId) || !emailValidator.isValid(this.googleId)) {
             throw new SettingsError(SettingsError.Error.BACKEND_ID);
         }
-    }
-
-    private void parseSettings() throws SettingsError {
-        this.checkBackend();
-        this.checkInput();
-        this.checkOutput();
-        this.checkLanguage();
-        this.checkIds();
     }
 
     /**
@@ -176,29 +189,6 @@ public class Settings {
      */
     public void toJsonFile(Appendable configWriter) {
         new GsonBuilder().create().toJson(this, configWriter);
-    }
-
-    /**
-     * Load Settings from json file config.
-     *
-     * @param configReader the config file reader
-     * @return the config object
-     * @throws SettingsError the config error
-     */
-    public static Settings fromJsonFile(Reader configReader) throws SettingsError {
-        Settings settings = new Gson().fromJson(configReader, Settings.class);
-        settings.parseSettings();
-        return settings;
-    }
-
-    /**
-     * Load Settings from cli args config.
-     *
-     * @param cliArgs the cli args
-     * @return the config
-     */
-    public static Settings fromCliArgs(CliArgs cliArgs) {
-        return new Settings(cliArgs);
     }
 
     /**

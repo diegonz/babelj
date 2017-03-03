@@ -36,22 +36,6 @@ public class YandexTranslator implements Translator {
         this.service = retrofit.create(YandexTranslateService.class);
     }
 
-    @Override
-    public boolean checkTranslationAvailable(Translation request)
-            throws TranslateError {
-        Call<GetLangsResponse> getLangsCall = this.service.getLangs(API_VERSION, this.apiKey, request.getTargetLang());
-        try {
-            if (request.getSourceLang() == null) {
-                return getLangsCall.execute().body().getLangs().containsKey(request.getTargetLang());
-            } else {
-                String translateDirection = request.getSourceLang() + "-" + request.getTargetLang();
-                return getLangsCall.execute().body().getDirs().contains(translateDirection);
-            }
-        } catch (IOException e) {
-            throw new TranslateError(TranslateError.ErrorCode.E503, e);
-        }
-    }
-
     /**
      * Translate translation.
      *
@@ -61,13 +45,9 @@ public class YandexTranslator implements Translator {
      */
     @Override
     public Translation translate(Translation request) throws TranslateError {
-        // TODO this.checkTranslationAvailable(request);    // Discard return value
-        String translationDirection;
-        if (request.getSourceLang() != null) {
-            translationDirection = request.getSourceLang() + "-" + request.getTargetLang();
-        } else {
-            translationDirection = request.getTargetLang();
-        }
+        String translationDirection = "auto".equals(request.getSourceLang())
+                ? request.getTargetLang()
+                : request.getSourceLang() + "-" + request.getTargetLang();
         Call<TranslateResponse> translateCall = this.service.translate(
                 API_VERSION, this.apiKey, translationDirection, "plain", request.getText());
         try {

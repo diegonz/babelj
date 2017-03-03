@@ -108,24 +108,6 @@ public class TranslateError extends BabelJException {
 
     /**
      * Instantiates a new Translate exception.
-     */
-    public TranslateError() {
-        super(ErrorCode.E666.getErrorDescription());
-        this.errorCode = ErrorCode.E666;
-    }
-
-    /**
-     * Instantiates a new Translate exception.
-     *
-     * @param message the message
-     */
-    public TranslateError(String message) {
-        super(message);
-        this.errorCode = ErrorCode.E666;
-    }
-
-    /**
-     * Instantiates a new Translate exception.
      *
      * @param errorCode the errorCode
      */
@@ -137,44 +119,12 @@ public class TranslateError extends BabelJException {
     /**
      * Instantiates a new Translate exception.
      *
-     * @param message the message
-     * @param cause   the cause
-     */
-    public TranslateError(String message, Throwable cause) {
-        super(message, cause);
-        this.errorCode = ErrorCode.E666;
-    }
-
-    /**
-     * Instantiates a new Translate exception.
-     *
      * @param errorCode the errorCode
      * @param cause the cause
      */
     public TranslateError(ErrorCode errorCode, Exception cause) {
         super(errorCode.getErrorDescription(), cause);
         this.errorCode = errorCode;
-    }
-
-    /**
-     * Instantiates a new Translate exception.
-     *
-     * @param errorCode   the errorCode
-     * @param message the message
-     * @param cause   the cause
-     */
-    public TranslateError(ErrorCode errorCode, String message, Throwable cause) {
-        super(message, cause);
-        this.errorCode = errorCode;
-    }
-
-    /**
-     * Gets int errorCode code.
-     *
-     * @return the int errorCode code
-     */
-    public int getIntErrorCode() {
-        return this.errorCode.intErrorCode;
     }
 
     /**

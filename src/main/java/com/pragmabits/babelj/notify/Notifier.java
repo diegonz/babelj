@@ -18,7 +18,7 @@ public interface Notifier {
      * sendNotification sends a notification to the user
      *
      * @param notification Object containing notification data
-     * @throws NotifyException the notify exception
+     * @throws NotifyError the notify exception
      */
-    int sendNotification(Notification notification) throws NotifyException;
+    int sendNotification(Notification notification) throws NotifyError;
 }

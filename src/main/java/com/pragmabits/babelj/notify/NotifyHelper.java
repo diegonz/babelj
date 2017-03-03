@@ -37,7 +37,7 @@ public class NotifyHelper {
         }
     }
 
-    private void doNotify(String title, String message) throws NotifyException {
+    private void doNotify(String title, String message) throws NotifyError {
         for (Notifier notifier : potentialNotifiers) {
             if (notifier.isSupported()) {
                 notifier.sendNotification(new Notification(title, message));
@@ -51,9 +51,9 @@ public class NotifyHelper {
      *
      * @param title   the title
      * @param message the message
-     * @throws NotifyException the notify exception
+     * @throws NotifyError the notify exception
      */
-    public static void notify(String title, String message) throws NotifyException {
+    public static void notify(String title, String message) throws NotifyError {
         getInstance().doNotify(title, message);
     }
 }

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * The type Translate response.
  */
-public class TranslateResponse {
+class TranslateResponse {
 
     @SerializedName("text")
     @Expose
@@ -38,17 +38,8 @@ public class TranslateResponse {
      *
      * @return the text
      */
-    public List<String> getText() {
+    List<String> getText() {
         return text;
-    }
-
-    /**
-     * Sets text.
-     *
-     * @param text the text
-     */
-    void setText(List<String> text) {
-        this.text = text;
     }
 
     /**
@@ -56,17 +47,8 @@ public class TranslateResponse {
      *
      * @return the language
      */
-    public String getLang() {
+    String getLang() {
         return lang;
-    }
-
-    /**
-     * Sets language.
-     *
-     * @param lang the language
-     */
-    void setLang(String lang) {
-        this.lang = lang;
     }
 
     /**
@@ -74,16 +56,7 @@ public class TranslateResponse {
      *
      * @return the code
      */
-    public Integer getCode() {
+    Integer getCode() {
         return code;
-    }
-
-    /**
-     * Sets return code.
-     *
-     * @param code the code
-     */
-    void setCode(Integer code) {
-        this.code = code;
     }
 }

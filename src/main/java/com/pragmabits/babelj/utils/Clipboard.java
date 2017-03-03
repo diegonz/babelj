@@ -3,6 +3,8 @@ package com.pragmabits.babelj.utils;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 
 /**
  * Clipboard class handles clipboard or selection input.
@@ -28,7 +30,7 @@ public class Clipboard {
     private String getClipboard() throws ClipboardError {
         try {
             return (String) toolkit.getSystemClipboard().getData(DataFlavor.stringFlavor);
-        } catch (Exception e) {
+        } catch (UnsupportedFlavorException | IOException e) {
             throw new ClipboardError(e.getMessage(), e);
         }
     }
@@ -36,7 +38,7 @@ public class Clipboard {
     private String getSelection() throws ClipboardError {
         try {
             return (String) toolkit.getSystemSelection().getData(DataFlavor.stringFlavor);
-        } catch (Exception e) {
+        } catch (UnsupportedFlavorException | IOException e) {
             throw new ClipboardError(e.getMessage(), e);
         }
     }
