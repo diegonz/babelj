@@ -46,8 +46,10 @@ public class BabelJ {
     }
 
     private void run() throws BabelJException {
-        String targetText = cliArgs.message != null ? cliArgs.message : clipboard.getByInputType(settings.input);
         String sourceLang = cliArgs.sourceLang != null ? cliArgs.sourceLang : "auto";
+        String targetText = cliArgs.message != null ? cliArgs.message : clipboard.getByInputType(settings.input);
+        if (targetText.isEmpty())
+            targetText = "No text was found on " + settings.input;
         Translation response;
         try {
             response = translator.translate(new Translation(sourceLang, settings.language, targetText));
