@@ -6,16 +6,21 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The type Clipboard test.
+ * The TextTransfer test.
  */
-public class ClipboardTest {
+public class TextTransferTest {
 
     private static final String testString = "This is a test String";
-    private Clipboard clipboard;
+    private TextTransfer clipboard;
 
+    /**
+     * Sets up.
+     *
+     * @throws Exception the exception
+     */
     @Before
     public void setUp() throws Exception {
-        clipboard = Clipboard.getInstance();
+        clipboard = new TextTransfer();
     }
 
     /**

@@ -19,7 +19,7 @@ public class BabelJ {
 
     private CliArgs cliArgs;
     private Settings settings;
-    private Clipboard clipboard;
+    private ClipboardHandler clipboard;
     private Translator translator;
 
     /**
@@ -31,7 +31,7 @@ public class BabelJ {
     private BabelJ(Settings settings, CliArgs cliArgs) {
         this.settings = settings;
         this.cliArgs = cliArgs;
-        this.clipboard = Clipboard.getInstance();
+        this.clipboard = new TextTransfer();
         this.translator = this.getTranslator();
     }
 
