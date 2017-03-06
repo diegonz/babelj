@@ -14,60 +14,63 @@ public class CliArgs {
 
     private static CliArgs instance;
 
+    @Parameter(names = {"--help", "-h"}, description = "Show help and usage options", help = true)
+    public boolean help;
     /**
      * The Settings file.
      */
-    @Parameter(names = {"--config-file", "-c"})
+    @Parameter(names = {"--config-file", "-c"}, description = "Custom path to config file. [/path/to/config.json]")
     public String configPath;
     /**
      * The Api key.
      */
-    @Parameter(names = {"--api-key", "-a"})
+    @Parameter(names = {"--api-key", "-a"}, description = "Translate backend API key. [yourApiKey]")
     String apiKey;
     /**
      * The Api id.
      */
-    @Parameter(names = {"--api-id", "-id"})
+    @Parameter(names = {"--api-id", "-id"}, description = "Translate backend ID. [yourId@server.com]")
     String apiId;
     /**
      * The Backend.
      */
-    @Parameter(names = {"--backend", "-b"})
+    @Parameter(names = {"--backend", "-b"}, description = "Target translate backend. [yandex|microsoft|google]")
     String backend;
     /**
      * The Input.
      */
-    @Parameter(names = {"--input", "-i"})
+    @Parameter(names = {"--input", "-i"}, description = "Desired input method. [clipboard|selection]")
     String input;
     /**
      * The Message.
      */
-    @Parameter(names = {"--message", "-m"})
+    @Parameter(names = {"--message", "-m"}, description = "The text to translate itself given as a String argument.")
     public String message;
     /**
      * The Output.
      */
-    @Parameter(names = {"--output", "-o"})
+    @Parameter(names = {"--output", "-o"}, description = "Desired output method. [notify|stdout|none]")
     String output;
     /**
      * The Source lang.
      */
-    @Parameter(names = {"--source-lang", "-s"})
+    @Parameter(names = {"--source-lang", "-s"}, description = "Source language to translate from. [en|ru|fr|es|...]")
     public String sourceLang;
     /**
      * The Target lang.
      */
-    @Parameter(names = {"--target-lang", "-t"})
+    @Parameter(names = {"--target-lang", "-t"}, description = "Target language to translate. [en|ru|fr|es|...]")
     String targetLang;
     /**
      * The Exchange.
      */
-    @Parameter(names = {"--exchange", "-x"})
+    @Parameter(names = {"--exchange", "-x"}, description = "Exchange clipboard content with translation result.")
     public boolean exchange = false;
     /**
      * The Save config.
      */
-    @Parameter(names = {"--save-config"})
+    @Parameter(names = {"--save-config"},
+            description = "Save (overwriting) current settings to config file (into default or given path) and exit.")
     public boolean saveConfig = false;
 
     private CliArgs() {}
@@ -87,13 +90,13 @@ public class CliArgs {
             throw new CliArgsError(new ParseException(output, 0).getMessage());
     }
 
-    private void parseCliArgs() throws CliArgsError {
+    public void parseCliArgs() throws CliArgsError {
         checkBackend();
         checkInput();
         checkOutput();
     }
 
-    private static synchronized CliArgs getInstance() {
+    public static synchronized CliArgs getInstance() {
         if (instance == null)
             instance = new CliArgs();
         return instance;

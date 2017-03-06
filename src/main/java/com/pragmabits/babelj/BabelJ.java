@@ -1,5 +1,6 @@
 package com.pragmabits.babelj;
 
+import com.beust.jcommander.JCommander;
 import com.pragmabits.babelj.notify.NotifyError;
 import com.pragmabits.babelj.notify.NotifyHelper;
 import com.pragmabits.babelj.translate.TranslateError;
@@ -82,11 +83,17 @@ public class BabelJ {
      * @param args the cli input arguments
      */
     public static void main(final String[] args) {
-        CliArgs cliArgs = null;
+        CliArgs cliArgs = CliArgs.getInstance();
+        JCommander jCommander = new JCommander(cliArgs, args);
         try {
-            cliArgs = CliArgs.fromArgs(args);
+            cliArgs.parseCliArgs();
+            if (cliArgs.help) {
+                jCommander.usage();
+                System.exit(0);
+            }
         } catch (CliArgsError e) {
             Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] CLI args parse error.", e);
+            jCommander.usage();
             System.exit(1);
         }
 
