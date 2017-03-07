@@ -56,7 +56,7 @@ public class BabelJ {
         try {
             response = translator.translate(new Translation(sourceLang, settings.language, targetText));
         } catch (TranslateError te) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] Translate error.", te);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ Translate error.", te);
             response = new Translation("ERROR", te.getErrorDescription());
         }
 
@@ -69,8 +69,10 @@ public class BabelJ {
             System.out.println(response.getText());
         }
 
-        if (cliArgs.exchange || settings.exchange)
+        if (cliArgs.exchange || settings.exchange) {
             clipboard.setClipboard(response.getText());
+            System.out.println("✓ Translation successfully inserted into system clipboard.");
+        }
     }
 
     /**
@@ -87,13 +89,13 @@ public class BabelJ {
                 System.exit(0);
             }
         } catch (ParameterException e) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] CLI arguments error: ", e);
+            System.out.println("❌ CLI arguments error: " + e.getLocalizedMessage());
             System.exit(1);
         }
 
         String configPath = cliArgs.configPath != null
                 ? cliArgs.configPath.replaceFirst("^~", System.getProperty("user.home"))
-                : System.getProperty("user.home") + File.separator + ".BabelJ.json";
+                : System.getProperty("user.home") + File.separator + ".babelj.json";
 
         Settings settings = null;
         try (FileReader fileReader = new FileReader(configPath)) {
@@ -102,32 +104,32 @@ public class BabelJ {
             bufferedReader.close();
             settings.addCliArgs(cliArgs);
         } catch (FileNotFoundException e) {
-            Logger.getLogger(BabelJ.class.getName())
-                    .log(Level.WARNING, "[⚠] Settings file not found, using \"default + CLI\" settings.");
+            System.out.println("⚠ Settings file not found, using \"DEFAULT + CLI\" settings.");
             settings = Settings.fromCliArgs(cliArgs);
         } catch (IOException e) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] IO read error.", e);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ IO read error.", e);
+            System.out.println("❌ IO Error found while reading config file.");
             System.exit(1);
         } catch (SettingsError error) {
-            Logger logger = Logger.getLogger(BabelJ.class.getName());
-            logger.log(Level.SEVERE, "[❌] Error found while parsing config file.", error);
-            logger.log(Level.SEVERE, "[❌] Description: \n%s", error.getErrorDescription());
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ Settings error", error);
+            System.out.println("❌ Error found while parsing config file.");
+            System.out.println("❌ Error description: " + error.getErrorDescription() + ".");
             if (error.getErrorCauseItem() != null)
-                logger.log(Level.SEVERE, "[❌] Error causing item: \n%s", error.getErrorCauseItem());
+                System.out.println("❌ Error causing item: " + error.getErrorCauseItem());
             System.exit(1);
         }
 
         if (cliArgs.saveConfig) {
-            Logger logger = Logger.getLogger(BabelJ.class.getName());
             try (FileWriter fileWriter = new FileWriter(configPath)) {
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
                 settings.toJsonFile(bufferedWriter);
                 bufferedWriter.close();
-                logger.log(Level.INFO, "[✓] Config file created at: %s", configPath);
-                logger.log(Level.INFO, "[✓] Fill it with your settings and API Key(s).");
+                System.out.println("✓ Config file created at: \"" + configPath + "\".");
+                System.out.println("✓ Fill it with your settings and API Key(s).");
                 System.exit(0);
             } catch (IOException e) {
-                logger.log(Level.SEVERE, "[❌] IO write error.", e);
+                Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ IO write error.", e);
+                System.out.println("❌ IO Error found while write config file.");
                 System.exit(1);
             }
         }
@@ -135,11 +137,14 @@ public class BabelJ {
         try {
             new BabelJ(settings, cliArgs).run();
         } catch (TextTransferError transferError) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] Input error.", transferError);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ Input error.", transferError);
+            System.out.println("❌ An error was found while trying to get user " + settings.input + ".");
         } catch (NotifyError notifyError) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] Notify error.", notifyError);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ Notify error.", notifyError);
+            System.out.println("❌ An error was found while trying show a notification to the user.");
         } catch (BabelJException babelJException) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] App error.", babelJException);
+            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ App error.", babelJException);
+            System.out.println("❌ An error was found while trying to run babelj...");
         }
     }
 }

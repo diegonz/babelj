@@ -5,7 +5,7 @@ A simple tool for those who would not survive in the tower of Babel.
 
 ## Config file
 
-Example of a simple settings file (default `~/.BabelJ.json`) containing _all_ the settings entries:
+Example of a simple settings file (default `~/.babelj.json`) containing _all_ the settings entries:
 
 ```json
 {
