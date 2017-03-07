@@ -1,5 +1,6 @@
 package com.pragmabits.babelj.utils;
 
+import com.beust.jcommander.JCommander;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +37,8 @@ public class SettingsTest {
      */
     @Before
     public void setUp() throws Exception {
-        args = CliArgs.fromArgs(fakeCliArgs);
+        args = CliArgs.getInstance();
+        new JCommander(args, fakeCliArgs);
     }
 
     /**

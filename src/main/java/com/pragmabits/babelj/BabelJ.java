@@ -85,22 +85,16 @@ public class BabelJ {
     public static void main(final String[] args) {
         CliArgs cliArgs = CliArgs.getInstance();
         JCommander jCommander = new JCommander(cliArgs, args);
-        try {
-            cliArgs.parseCliArgs();
-            if (cliArgs.help) {
-                jCommander.usage();
-                System.exit(0);
-            }
-        } catch (CliArgsError e) {
-            Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "[❌] CLI args parse error.", e);
+        if (cliArgs.help) {
             jCommander.usage();
-            System.exit(1);
+            System.exit(0);
         }
 
         String configPath = cliArgs.configPath != null
                 ? cliArgs.configPath.replaceFirst("^~", System.getProperty("user.home"))
                 : System.getProperty("user.home") + File.separator + ".BabelJ.json";
 
+        // TODO Rethrow IOException(s) ¿¿??
         Settings settings = null;
         try (FileReader fileReader = new FileReader(configPath)) {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -140,11 +134,12 @@ public class BabelJ {
             System.exit(writeOk);
         }
 
+        // TODO Refactor Error(s) name ¿?
         try {
             new BabelJ(settings, cliArgs).run();
-        } catch (ClipboardError clipboardError) {
+        } catch (TextTransferError textTransferError) {
             Logger.getLogger(BabelJ.class.getName())
-                    .log(Level.SEVERE, "[❌] Input error.", clipboardError);
+                    .log(Level.SEVERE, "[❌] Input error.", textTransferError);
         } catch (NotifyError e) {
             Logger.getLogger(BabelJ.class.getName())
                     .log(Level.SEVERE, "[❌] Notify error.", e);

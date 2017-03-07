@@ -3,11 +3,11 @@ package com.pragmabits.babelj.utils;
 import com.pragmabits.babelj.BabelJException;
 
 /**
- * Exception ClipboardError
+ * Exception TextTransferError
  *
  * @author Diego González
  */
-public class ClipboardError extends BabelJException {
+public class TextTransferError extends BabelJException {
     
     /**
      * Instantiates a new Input error.
@@ -15,7 +15,7 @@ public class ClipboardError extends BabelJException {
      * @param message the message
      * @param cause   the cause
      */
-    ClipboardError(String message, Exception cause) {
+    TextTransferError(String message, Exception cause) {
         super(message, cause);
     }
 }

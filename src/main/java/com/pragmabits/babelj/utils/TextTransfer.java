@@ -14,7 +14,7 @@ public final class TextTransfer implements ClipboardOwner, ClipboardHandler {
      * Empty implementation of the ClipboardOwner interface.
      */
     @Override
-    public void lostOwnership(Clipboard clipboard, Transferable aContents) {
+    public void lostOwnership(Clipboard clipboard, Transferable contents) {
         //do nothing
     }
 
@@ -23,10 +23,10 @@ public final class TextTransfer implements ClipboardOwner, ClipboardHandler {
      *
      * @param inputType the input type
      * @return the by input type
-     * @throws ClipboardError the clipboard error
+     * @throws TextTransferError the clipboard error
      */
     @Override
-    public String getByInputType(String inputType) throws ClipboardError {
+    public String getByInputType(String inputType) throws TextTransferError {
         Clipboard clipboard = "clipboard".equals(inputType)
                 ? Toolkit.getDefaultToolkit().getSystemClipboard()
                 : Toolkit.getDefaultToolkit().getSystemSelection();
@@ -39,8 +39,8 @@ public final class TextTransfer implements ClipboardOwner, ClipboardHandler {
         if (hasTransferableText) {
             try {
                 result = (String) contents.getTransferData(DataFlavor.stringFlavor);
-            } catch (UnsupportedFlavorException | IOException ex) {
-                throw new ClipboardError(ex.getMessage(), ex);
+            } catch (UnsupportedFlavorException | IOException e) {
+                throw new TextTransferError(e.getMessage(), e);
             }
         }
         return result;

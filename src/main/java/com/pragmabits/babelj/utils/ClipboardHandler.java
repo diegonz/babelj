@@ -10,9 +10,9 @@ public interface ClipboardHandler {
      *
      * @param inputType the input type
      * @return the by input type
-     * @throws ClipboardError the clipboard error
+     * @throws TextTransferError the clipboard error
      */
-    String getByInputType(String inputType) throws ClipboardError;
+    String getByInputType(String inputType) throws TextTransferError;
 
     /**
      * Sets clipboard to given text.
