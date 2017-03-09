@@ -6,12 +6,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * The TextTransfer test.
+ * The ClipboardManager test.
  */
-public class TextTransferTest {
+public class ClipboardManagerTest {
 
     private static final String testString = "This is a test String";
-    private TextTransfer clipboard;
+    private ClipboardManager clipboard;
 
     /**
      * Sets up.
@@ -20,7 +20,7 @@ public class TextTransferTest {
      */
     @Before
     public void setUp() throws Exception {
-        clipboard = new TextTransfer();
+        clipboard = new ClipboardManager();
     }
 
     /**
@@ -43,6 +43,7 @@ public class TextTransferTest {
     @Test
     public void setClipboard() throws Exception {
         clipboard.setClipboard(testString);
+        assertTrue("Set clipboard", clipboard.setClipboard(testString));
         assertEquals("Set clipboard", testString, clipboard.getByInputType("clipboard"));
     }
 

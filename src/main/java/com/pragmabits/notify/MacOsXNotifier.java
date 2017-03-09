@@ -1,5 +1,7 @@
 package com.pragmabits.notify;
 
+import com.pragmabits.RuntimeExec;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +44,7 @@ public class MacOsXNotifier implements Notifier {
         command.add(notification.message);
         try {
             return runtime.exec(command.toArray(new String[0])).waitFor();
-        } catch (Exception e) {
+        } catch (InterruptedException | IOException e) {
             throw new NotifyError("Unable to notify with notify OSD", e);
         }
     }

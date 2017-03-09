@@ -1,4 +1,4 @@
-package com.pragmabits.notify;
+package com.pragmabits;
 
 import java.io.IOException;
 
@@ -23,6 +23,7 @@ public class RuntimeExec {
      * @throws IOException the io exception
      */
     public Process exec(String command) throws IOException {
+        System.out.println("Command from RuntimeExec: " + command);
         return Runtime.getRuntime().exec(command);
     }
 }

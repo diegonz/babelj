@@ -33,7 +33,7 @@ public class BabelJ {
     private BabelJ(Settings settings, CliArgs cliArgs) {
         this.settings = settings;
         this.cliArgs = cliArgs;
-        this.clipboard = new TextTransfer();
+        this.clipboard = new ClipboardManager();
         this.translator = this.getTranslator();
     }
 
@@ -70,8 +70,9 @@ public class BabelJ {
         }
 
         if (cliArgs.exchange || settings.exchange) {
-            clipboard.setClipboard(response.getText());
-            System.out.println("✓ Translation successfully inserted into system clipboard.");
+            if (clipboard.setClipboard(response.getText())) {
+                System.out.println("✓ Translation successfully inserted into system clipboard.");
+            }
         }
     }
 
@@ -89,7 +90,7 @@ public class BabelJ {
                 System.exit(0);
             }
         } catch (ParameterException e) {
-            System.out.println("❌ CLI arguments error: " + e.getLocalizedMessage());
+            System.out.println("❌ CLI arguments error:\n" + e.getLocalizedMessage());
             System.exit(1);
         }
 
@@ -136,7 +137,7 @@ public class BabelJ {
 
         try {
             new BabelJ(settings, cliArgs).run();
-        } catch (TextTransferError transferError) {
+        } catch (ClipboardManagerError transferError) {
             Logger.getLogger(BabelJ.class.getName()).log(Level.SEVERE, "❌ Input error.", transferError);
             System.out.println("❌ An error was found while trying to get user " + settings.input + ".");
         } catch (NotifyError notifyError) {
