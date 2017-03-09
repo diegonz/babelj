@@ -75,6 +75,9 @@ public class Settings {
     @Expose
     public Boolean exchange;
 
+    /**
+     * Instantiates a new Settings.
+     */
     private Settings() {
         this.backend = "yandex";
         this.yandexKey = "YandexApiKey";
@@ -153,6 +156,23 @@ public class Settings {
     public void addCliArgs(CliArgs cliArgs) {
         if (cliArgs.backend != null)
             this.backend = cliArgs.backend;
+        addBackendCliArgs(cliArgs);
+        if (cliArgs.targetLang != null)
+            this.language = cliArgs.targetLang;
+        if (cliArgs.input != null)
+            this.input = cliArgs.input;
+        if (cliArgs.output != null)
+            this.output = cliArgs.output;
+        if (cliArgs.exchange)
+            this.exchange = true;
+    }
+
+    /**
+     * Add backend cli args.
+     *
+     * @param cliArgs the cli args
+     */
+    private void addBackendCliArgs(CliArgs cliArgs) {
         switch (this.backend) {
             case "google":
                 if (cliArgs.apiKey != null)
@@ -172,14 +192,6 @@ public class Settings {
                     this.yandexKey = cliArgs.apiKey;
                 break;
         }
-        if (cliArgs.targetLang != null)
-            this.language = cliArgs.targetLang;
-        if (cliArgs.input != null)
-            this.input = cliArgs.input;
-        if (cliArgs.output != null)
-            this.output = cliArgs.output;
-        if (cliArgs.exchange)
-            this.exchange = true;
     }
 
     /**
