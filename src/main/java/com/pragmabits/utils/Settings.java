@@ -12,7 +12,7 @@ import java.util.HashMap;
 /**
  * The Settings class.
  */
-public class Settings {
+public final class Settings {
 
     /**
      * The Backend.

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Diego González
  */
-public class NotifyHelper {
+public final class NotifyHelper {
 
     private static NotifyHelper instance;
 

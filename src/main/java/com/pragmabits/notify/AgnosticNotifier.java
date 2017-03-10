@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
  *
  * @author Diego González
  */
-public class AgnosticNotifier implements Notifier {
+public final class AgnosticNotifier implements Notifier {
 
     private JFrame jFrame;
     private static final int TARGET_FRAME_WIDTH = 250;

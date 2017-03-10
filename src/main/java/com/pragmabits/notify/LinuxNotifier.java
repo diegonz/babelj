@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Diego González
  */
-public class LinuxNotifier implements Notifier {
+public final class LinuxNotifier implements Notifier {
 
     private final RuntimeExec runtime;
 

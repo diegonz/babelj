@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @author Diego González
  */
-public class YandexTranslator implements Translator {
+public final class YandexTranslator implements Translator {
 
     private static final String API_VERSION = "v1.5";
     private static final String BASE_API_URL = "https://translate.yandex.net/";

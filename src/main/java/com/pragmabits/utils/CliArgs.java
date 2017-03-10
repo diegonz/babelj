@@ -10,7 +10,7 @@ import org.apache.commons.validator.routines.EmailValidator;
  *
  * @author Diego González
  */
-public class CliArgs {
+public final class CliArgs {
 
     private static CliArgs instance;
 

@@ -1,16 +1,14 @@
 plugins {
+    id "java"
+    id "idea"
     id "com.github.johnrengelman.shadow" version "1.2.4"
 }
 
 group 'com.pragmabits.babelj'
-version '0.9b'
+version '0.9.2'
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: "com.github.johnrengelman.shadow"
-
-//noinspection GroovyUnusedAssignment
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -27,10 +25,17 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.pragmabits.BabelJ'
+        attributes(
+                'Main-Class': 'com.pragmabits.BabelJ',
+                "Specification-Title": "babelj",
+                "Specification-Vendor": "Diego González",
+                "Specification-Version": version,
+                "Implementation-Title": "babelj",
+                "Implementation-Vendor": "Diego González",
+                "Implementation-Version": version,
+                "Build-Date": new Date().format('yyyyMMdd')
+        )
     }
 }
 
-test {
-    include '**/*Test.class'
-}
+test { include '**/*Test.class' }

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Diego González
  */
-public class MacOsXNotifier implements Notifier {
+public final class MacOsXNotifier implements Notifier {
 
     private static final String CLI_NOTIFY_APP = "/Applications/terminal-notifier.app/Contents/MacOS/terminal-notifier";
     private RuntimeExec runtime;

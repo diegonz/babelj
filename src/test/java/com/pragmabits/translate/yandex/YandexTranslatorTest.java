@@ -23,7 +23,6 @@ public class YandexTranslatorTest {
 
     @Test
     public void translate() throws Exception {
-        // TODO - Mock yandex backend
         Translation translation = translator.translate(new Translation(sourceLang, targetLang, sourceText));
         assertEquals("YandexTranslator (net)translate", targetText, translation.getText());
     }

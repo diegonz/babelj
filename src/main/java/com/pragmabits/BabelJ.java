@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * BabelJ main class. - TODO - More UnitTesting
+ * BabelJ main class.
  */
 public class BabelJ {
 
