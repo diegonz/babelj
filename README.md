@@ -1,11 +1,41 @@
 # BabelJ
 
-A command line tool to translate text from the clipboard or selected text.
-A simple tool for those who would not survive in the tower of Babel.
+## Purpose
+The goal of this project is to make the easiest, fastest, and most painless way of translating text on the go, which can be run across **ALL platforms** supported by *Java* (including Linux, Mac OS X, IllumOS(Solaris), BSD *nixes, Windows and ARM).
+
+BabelJ is a *simple* command line tool, designed to *simply* translate text.
+
+## Features
+
+- Get input from system *clipboard*, user *selection* or passing text as a *CLI* argument.
+- Store and load settings from a very simple *JSON* file.
+- Use *yandex*, *microsoft* or *google* as translation backend.
+- Use *CLI* arguments to load/overwrite settings.
+- Show the obtained translated text outputting to *stdout* or as a OS-independent notification.
+- Put the translation into system clipboard.
+
+## Requirements
+
+- Java 8 JRE/JDK (OpenJDK/Oracle).
+
+### Optional dependencies
+
+#### Linux
+
+- libnotify *(Installed by default on most of gnome-based distributions)*.
+
+#### Mac Os X
+
+- terminal-notifier *(https://github.com/julienXX/terminal-notifier)*.
+
+## Installation
+
+- One size fits all: Download latest released *jar* from [Releases](https://github.com/gonzalez-diego/babelj/releases).
+- You can also build yourself the *jar* executable using the default `shadowJar` gradle task included (bundling the code alongside the libraries).
 
 ## Config file
 
-Example of a simple settings file (default `~/.babelj.json`) containing _all_ the settings entries:
+Below is shown an example of the settings file which is placed by default at the root of your user folder and named `.babelj.json`.
 
 ```json
 {
@@ -21,22 +51,21 @@ Example of a simple settings file (default `~/.babelj.json`) containing _all_ th
   "default_exchange": false
 }
 ```
-## TODO FIX CHANGES FROM PYTHON·TO JAVA
+
 ## Usage examples
 
-You can simply run `babelPy` to run translation, picking preferences from default settings file (`~/.babelPy.json`).
+- You can simply run `java -jar babelj` to run the translation, picking preferences from default settings file (`~/.babelj.json`).
 
-Also you can override config file settings using CLI arguments.
+- You can also override config file settings using CLI arguments.
 
-Supports the **@** syntax, which allows you to put all your options into a file and pass this file as parameter:
+- Also supports the **@** syntax, which allows you to put all your options into a file and pass this file as parameter:
 
-```bash
-java -jar babelj.jar @/tmp/parameters
-```
+  ```bash
+  java -jar babelj.jar @/tmp/parameters
+  ```
+- You can create a default (or *CLI-fed*) initial config file, using the `--save-config` flag alongside your preferred *CLI* arguments.
 
-Example of `babelPY -h` or `babelPy --help`  output:
-
-Note: All of each _cli_ options overrides their corresponding settings settings stored on the settings file(s).
+Below is shown an example of the output of `java -jar babelj.jar -h` or `java -jar babelj.jar --help` commands to show all available *CLI* arguments.
 
 ```
 Usage: <babelj.jar> [options]
@@ -70,3 +99,8 @@ Usage: <babelj.jar> [options]
     --target-lang, -t
       Target language to translate. [en|ru|fr|es|...]
 ```
+*Note: All of each _cli_ arguments used, overrides their corresponding settings stored/loaded from the config file(s).*
+
+## License
+
+This project is under the GPLv3 License. See the [LICENSE](LICENSE) file for the full license text.
