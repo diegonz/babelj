@@ -1,14 +1,14 @@
 # BabelJ
 
 ## Purpose
-The goal of this project is to make the easiest, fastest, and most painless way of translating text on the go, which can be run across **ALL platforms** supported by *Java* (including Linux, Mac OS X, IllumOS(Solaris), BSD *nixes, Windows and ARM).
+The goal of this project is to make the easiest, fastest, and most painless way of translating text on the go, which can run across **ALL platforms** supported by *Java* (including Linux, Mac OS X, IllumOS(Solaris), BSD *nixes, Windows and ARM).
 
 BabelJ is a *simple* command line tool, designed to *simply* translate text.
 
 ## Features
 
 - Get input from system *clipboard*, user *selection* or passing text as a *CLI* argument.
-- Store and load settings from a very simple *JSON* file.
+- Store and load settings from a simple *JSON* file.
 - Use *yandex*, *microsoft* or *google* as translation backend.
 - Use *CLI* arguments to load/overwrite settings.
 - Show the obtained translated text outputting to *stdout* or as a OS-independent notification.
@@ -35,7 +35,7 @@ BabelJ is a *simple* command line tool, designed to *simply* translate text.
 
 ## Config file
 
-Below is shown an example of the settings file which is placed by default at the root of your user folder and named `.babelj.json`.
+Below an example of the settings file placed by default at the root of your user folder and named `.babelj.json`.
 
 ```json
 {
@@ -54,7 +54,7 @@ Below is shown an example of the settings file which is placed by default at the
 
 ## Usage examples
 
-- You can simply run `java -jar babelj` to run the translation, picking preferences from default settings file (`~/.babelj.json`).
+- You can run `java -jar babelj` to run the translation, picking preferences from default settings file (`~/.babelj.json`).
 
 - You can also override config file settings using CLI arguments.
 
@@ -65,7 +65,7 @@ Below is shown an example of the settings file which is placed by default at the
   ```
 - You can create a default (or *CLI-fed*) initial config file, using the `--save-config` flag alongside your preferred *CLI* arguments.
 
-Below is shown an example of the output of `java -jar babelj.jar -h` or `java -jar babelj.jar --help` commands to show all available *CLI* arguments.
+Below a copy of the output of running `java -jar babelj.jar` command using `-h` or `--help` flag, to show all available *CLI* arguments.
 
 ```
 Usage: <babelj.jar> [options]
@@ -91,7 +91,7 @@ Usage: <babelj.jar> [options]
     --output, -o
       Desired output method. [notify|stdout|none]
     --save-config
-      Save (overwriting) current settings to config file (into default or 
+      Save (overwriting) current settings to config file (into default or
       given path) and exit.
       Default: false
     --source-lang, -s
@@ -99,7 +99,7 @@ Usage: <babelj.jar> [options]
     --target-lang, -t
       Target language to translate. [en|ru|fr|es|...]
 ```
-*Note: All of each _cli_ arguments used, overrides their corresponding settings stored/loaded from the config file(s).*
+*Note: Each _CLI_ arguments used, overrides their corresponding settings stored/loaded from the config file(s).*
 
 ## License
 
